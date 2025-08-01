@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Interactive Bouncing Basketball</title>
+  <style>
+    body {
+      margin: 0;
+      background: #fefefe;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      font-family: Arial, sans-serif;
+      position: relative;
+    }
+
+    .counter {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 22px;
+      font-weight: bold;
+      background: #ffe082;
+      padding: 6px 12px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .basket {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 15px;
+      background: #d84315;
+      border-bottom: 5px solid #5d4037;
+      z-index: 2;
+    }
+
+    .net {
+      position: absolute;
+      top: 115px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 60px;
+      background: radial-gradient(circle, white 1px, transparent 1px);
+      background-size: 10px 10px;
+      border-left: 2px solid #aaa;
+      border-right: 2px solid #aaa;
+      z-index: 1;
+    }
+
+    .ball {
+      position: absolute;
+      bottom: 0;
+      width: 80px;
+      height: 80px;
+      background: orange;
+      border-radius: 50%;
+      box-shadow: inset -5px -5px 0 #bf360c;
+      border: 2px solid #ff6f00;
+      cursor: pointer;
+      z-index: 3;
+    }
+
+    .bounce {
+      animation: bounce 3s ease-in-out forwards;
+    }
+
+    @keyframes bounce {
+      0%   { transform: translateY(0); }
+      20%  { transform: translateY(-700px); }
+      40%  { transform: translateY(0); }
+      55%  { transform: translateY(-500px); }
+      70%  { transform: translateY(0); }
+      80%  { transform: translateY(-300px); }
+      90%  { transform: translateY(0); }
+      100% { transform: translateY(-130px); }
+    }
+
+    .face-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      z-index: 4;
+    }
+
+    .face {
+      width: 60px;
+      height: 60px;
+      background-color: skyblue;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .face:hover {
+      transform: scale(1.1);
+    }
+
+    .info-box {
+      margin-top: 10px;
+      width: 220px;
+      padding: 15px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      transform: translateY(-10px);
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .info-box.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .click-label {
+  margin-top: 8px;
+  padding: 4px 10px;
+  background: #ffca28;
+  color: #4e342e;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  animation: pulse 1.8s infinite;
+  transition: all 0.3s ease;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.85; }
+  100% { transform: scale(1); opacity: 1; }
+}
+  </style>
+</head>
+
+<body>
+
+  <div class="counter" id="counter">Touches: 0</div>
+
+  <div class="basket"></div>
+  <div class="net"></div>
+
+  <div class="ball" id="ball" onclick="bounceBall()"></div>
+
+<div class="face-container" onclick="toggleInfo()">
+  <div class="face">🙂</div>
+  <div class="click-label" id="clickLabel">Click Me</div>
+  <div class="info-box" id="infoBox">
+    <strong>Hello!</strong><br>
+    I'm Yash Baraiya<br><br>Enrollment No. : 240905040009
+  </div>
+</div>
+
+
+
+  <script>
+    const ball = document.getElementById("ball");
+    const counterEl = document.getElementById("counter");
+    let touches = 0;
+    let alreadyCounted = false;
+
+    function bounceBall() {
+      ball.classList.remove("bounce");
+      void ball.offsetWidth;
+      ball.classList.add("bounce");
+     
+      setTimeout(() => {
+        if (!alreadyCounted) {
+          touches++;
+          counterEl.textContent = "Touches: " + touches;
+          alreadyCounted = true;
+        }
+      }, 1200); 
+      setTimeout(() => {
+        alreadyCounted = false;
+      }, 2200);
+    }
+    function toggleInfo() {
+      const info = document.getElementById("infoBox");
+      info.classList.toggle("show");
+    }
+    function toggleInfo() {
+  const info = document.getElementById("infoBox");
+  const label = document.getElementById("clickLabel");
+
+  info.classList.toggle("show");
+  label.style.display = info.classList.contains("show") ? "none" : "inline-block";
+}
+
+  </script>
+</body>
+</html>
